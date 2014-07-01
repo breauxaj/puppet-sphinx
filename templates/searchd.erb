@@ -89,49 +89,43 @@ searchd
   mva_updates_pool             = 1M
 <% end -%>
 
-  # max allowed network packet size
-  # limits both query packets from clients, and responses from agents
-  # optional, default size is 8M
-  max_packet_size    = 8M
+<% if max_packet_size and ! max_packet_size.empty? -%>
+  max_packet_size              =
+<% else -%>
+  max_packet_size              = 8M
+<% end -%>
 
-  # crash log path
-  # searchd will (try to) log crashed query to 'crash_log_path.PID' file
-  # optional, default is empty (do not create crash logs)
-  #
-  # crash_log_path    = @CONFDIR@/log/crash
+<% if crash_log_path and ! crash_log_path.empty? -%>
+  crash_log_path               = /var/log/sphinx
+<% end -%>
 
+<% if max_filters and ! max_filters.emtpy? -%>
+  max_filters                  =
+<% else -%>
+  max_filters                  = 256
+<% end -%>
 
-  # max allowed per-query filter count
-  # optional, default is 256
-  max_filters    = 256
+<% if max_filter_values and ! max_filter_values.empty? -%>
+  max_filter_values            = 4096
+<% end -%>
 
-  # max allowed per-filter values count
-  # optional, default is 4096
-  max_filter_values  = 4096
+<% if listen_backlog and ! listen_backlog.empty? -%>
+  listen_backlog               = 5
+<% end -%>
 
+<% if read_buffer and ! read_buffer.empty? -%>
+  read_buffer                  = 256K
+<% end -%>
 
-  # socket listen queue length
-  # optional, default is 5
-  #
-  # listen_backlog    = 5
+<% if read_unhinted and ! read_unhinted.empty? -%>
+  read_unhinted                = 32K
+<% end -%>
 
-
-  # per-keyword read buffer size
-  # optional, default is 256K
-  #
-  # read_buffer    = 256K
-
-
-  # unhinted read size (currently used when reading hits)
-  # optional, default is 32K
-  #
-  # read_unhinted    = 32K
-
-
-  # max allowed per-batch query count (aka multi-query count)
-  # optional, default is 32
-  max_batch_queries  = 32
-
+<% if max_batch_queries and ! max_batch_queries.empty? -%>
+  max_batch_queries            =
+<% else -%>
+  max_batch_queries            = 32
+<% end -%>
 
   # max common subtree document cache size, per-query
   # optional, default is 0 (disable subtree optimization)
