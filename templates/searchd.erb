@@ -79,17 +79,15 @@ searchd
   attr_flush_period            = 900
 <% end -%>
 
+<% if ondisk_dict_default and ! ondisk_dict_default.empty? -%>
+  ondisk_dict_default          = 1
+<% end -%>
 
-  # instance-wide ondisk_dict defaults (per-index value take precedence)
-  # optional, default is 0 (precache all dictionaries in RAM)
-  #
-  # ondisk_dict_default  = 1
-
-
-  # MVA updates pool size
-  # shared between all instances of searchd, disables attr flushes!
-  # optional, default size is 1M
-  mva_updates_pool  = 1M
+<% if mva_updates_pool and ! mva_updates_pool.empty? -%>
+  mva_updates_pool             =
+<% else -%>
+  mva_updates_pool             = 1M
+<% end -%>
 
   # max allowed network packet size
   # limits both query packets from clients, and responses from agents
