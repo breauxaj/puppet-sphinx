@@ -127,53 +127,40 @@ searchd
   max_batch_queries            = 32
 <% end -%>
 
-  # max common subtree document cache size, per-query
-  # optional, default is 0 (disable subtree optimization)
-  #
-  # subtree_docs_cache  = 4M
+<% if subtree_docs_cache and ! subtree_docs_cache.empty? -%>
+  subtree_docs_cache           = 4M
+<% end -%>
 
+<% if subtree_hits_cache and ! subtree_hits_cache.empty? -%>
+  subtree_hits_cache           = 8M
+<% end -%>
 
-  # max common subtree hit cache size, per-query
-  # optional, default is 0 (disable subtree optimization)
-  #
-  # subtree_hits_cache  = 8M
+<% if workers and ! workers.empty? -%>
+  workers                      =
+<% else -%>
+  workers                      = threads
+<% end -%>
 
-
-  # multi-processing mode (MPM)
-  # known values are none, fork, prefork, and threads
-  # threads is required for RT backend to work
-  # optional, default is fork
-  workers      = threads # for RT to work
-
-
-  # max threads to create for searching local parts of a distributed index
-  # optional, default is 0, which means disable multi-threaded searching
-  # should work with all MPMs (ie. does NOT require workers=threads)
-  #
-  # dist_threads    = 4
-
+<% if dist_threads and ! dist_threads.empty? -%>
+  dist_threads                 = 4
+<% end -%>
 
   # binlog files path; use empty string to disable binlog
   # optional, default is build-time configured data directory
   #
   # binlog_path    = # disable logging
-  # binlog_path    = @CONFDIR@/data # binlog.001 etc will be created there
+<% if binlog_path and ! binlog_path.empty? -%>
+  binlog_path                  = /var/sphinx/data
 
+<% if binlog_flush and ! binlog_flush.empty? -%>
+  binlog_flush                 = 2
+<% end -%>
 
-  # binlog flush/sync mode
-  # 0 means flush and sync every second
-  # 1 means flush and sync every transaction
-  # 2 means flush every transaction, sync every second
-  # optional, default is 2
-  #
-  # binlog_flush    = 2
+<% if binlog_max_log_size and ! binlog_max_log_size.empty? -%>
+  binlog_max_log_size          = 256M
+<% end -%>
 
-
-  # binlog per-file size limit
-  # optional, default is 128M, 0 means no limit
-  #
-  # binlog_max_log_size  = 256M
-
+<% end -%>
 
   # per-thread stack size, only affects workers=threads mode
   # optional, default is 64K
