@@ -49,32 +49,35 @@ searchd
 
   pid_file                     = /var/log/sphinx/searchd.pid
 
-  # max amount of matches the daemon ever keeps in RAM, per-index
-  # WARNING, THERE'S ALSO PER-QUERY LIMIT, SEE SetLimits() API CALL
-  # default is 1000 (just like Google)
 <% if max_matches and ! max_matches.empty? -%>
-  max_matches   = 
+  max_matches                  = 
 <% else -%>
-  max_matches    = 1000
+  max_matches                  = 1000
 <% end -%>
 
   # seamless rotate, prevents rotate stalls if precaching huge datasets
   # optional, default is 1
-  seamless_rotate    = 1
+<% if seamless_rotate and ! seamless_rotate.empty? -%>
+  seamless_rotate              =
+<% else -%>
+  seamless_rotate              = 1
+<% end -%>
 
-  # whether to forcibly preopen all indexes on startup
-  # optional, default is 1 (preopen everything)
-  preopen_indexes    = 1
+<% preopen_indexes and ! preopen_indexes.empty? -%>
+  preopen_indexes              =
+<% else -%>
+  preopen_indexes              = 1
+<% end -%>
 
-  # whether to unlink .old index copies on succesful rotation.
-  # optional, default is 1 (do unlink)
-  unlink_old    = 1
+<% unlink_old and ! unlink_old.empty? -%>
+  unlink_old                   =
+<% else -%>
+  unlink_old                   = 1
+<% end -%>
 
-  # attribute updates periodic flush timeout, seconds
-  # updates will be automatically dumped to disk this frequently
-  # optional, default is 0 (disable periodic flush)
-  #
-  # attr_flush_period  = 900
+<% if attr_flush_period and ! attr_flush_period.emtpy? -%>
+  attr_flush_period            = 900
+<% end -%>
 
 
   # instance-wide ondisk_dict defaults (per-index value take precedence)
