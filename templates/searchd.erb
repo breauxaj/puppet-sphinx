@@ -4,47 +4,50 @@
 
 searchd
 {
-	# [hostname:]port[:protocol], or /unix/socket/path to listen on
-	# known protocols are 'sphinx' (SphinxAPI) and 'mysql41' (SphinxQL)
-	#
-	# multi-value, multiple listen points are allowed
-	# optional, defaults are 9312:sphinx and 9306:mysql41, as below
-	#
-	# listen			= 127.0.0.1
-	# listen			= 192.168.0.1:9312
-	# listen			= 9312
-	# listen			= /var/run/searchd.sock
-	listen			= 9312
-	listen			= 9306:mysql41
+<% if listen and ! listen.empty? -%>
+  listen                        = {array}
+<% else -%>
+	listen			                  = 9312
+	listen			                  = 9306:mysql41
+<% end -%>
 
-	# log file, searchd run info is logged here
-	# optional, default is 'searchd.log'
-	log			= @CONFDIR@/log/searchd.log
+<% if log and ! log.empty? -%>
+  log                           = 
+<% else -%>
+	log			                      = /var/log/sphinx/searchd.log
+<% end -%>
 
-	# query log file, all search queries are logged here
-	# optional, default is empty (do not log queries)
-	query_log		= @CONFDIR@/log/query.log
+<% if query_log and ! query_log.empty? -%>
+  query_log                     = 
+<% else -%>
+	query_log		                  = /var/log/sphinx/query.log
+<% end -%>
 
-	# client read timeout, seconds
-	# optional, default is 5
-	read_timeout		= 5
+<% if read_timeout and ! read_timeout.empty? -%>
+  read_timeout                  = 
+<% else -%>
+	read_timeout		              = 5
+<% end -%>
 
-	# request timeout, seconds
-	# optional, default is 5 minutes
-	client_timeout		= 300
+<% if client_timeout and ! client_timeout.empty? -%>
+  client_timeout                =
+<% else -%>
+	client_timeout                = 300
+<% end -%>
 
-	# maximum amount of children to fork (concurrent searches to run)
-	# optional, default is 0 (unlimited)
-	max_children		= 30
+<% if max_children and ! max_children.empty? -%>
+  max_children                  = 
+<% else -%>
+	max_children                  = 30
+<% end -%>
 
-	# maximum amount of persistent connections from this master to each agent host
-	# optional, but necessary if you use agent_persistent. It is reasonable to set the value
-	# as max_children, or less on the agent's hosts.
+<% if persistent_connections_limit and ! persistent_connections_limit.empty? -%>
+  persistent_connections_limit  = 
+<% else -%>
 	persistent_connections_limit	= 30
+<% end -%>
 
-	# PID file, searchd process ID file name
-	# mandatory
-	pid_file		= @CONFDIR@/log/searchd.pid
+	pid_file		                  = /var/log/sphinx/searchd.pid
 
 	# max amount of matches the daemon ever keeps in RAM, per-index
 	# WARNING, THERE'S ALSO PER-QUERY LIMIT, SEE SetLimits() API CALL
